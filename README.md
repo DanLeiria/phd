@@ -6,10 +6,6 @@ This repository contains all the code and documentation from my PhD research on 
 The urgency to address environmental sustainability has intensified the focus on decarbonizing energy sources across various sectors, including district heating (DH) systems. As these systems are integral to urban infrastructure, providing heating solutions that are efficient and potentially environmentally friendly when configured and optimized correctly. However, although under transformation many existing DH networks still rely on carbon-intensive energy sources, which contributes significantly to large carbon emissions. Therefore, there is a pressing need to enhance the efficiency and operational effectiveness of these systems to replace their energy sources with renewable solutions. Innovations such as smart heat meters (SHM) offer potential breakthroughs in managing and optimizing DH systems, aiming to reduce their carbon footprint while improving overall grid performance. This dissertation investigates the innovative use of SHM data in buildings connected to the DH grid while emphasizing advancements in energy efficiency and fault detection and diagnosis. It is structured across multiple key chapters, each responding to specific research questions outlined in Chapter 1. 
 
 
-## Thesis structure:
-![Thesis structure](https://github.com/user-attachments/assets/e831e44b-a300-44c9-9e12-d7a2180e3937)
-
-
 ## Contributions:
 The main contributions of this Ph.D. work are: 
 - Validated the effectiveness of SHM in assessing buildings within the DH grid, demonstrating that incorporating weather data can help operators better predict and manage their energy usage. Additionally, using information from EPC helps identify buildings needing efficiency improvements, while visualization tools assist in interpreting data to make informed decisions.
@@ -22,3 +18,7 @@ Overall, this dissertation provides a foundational framework for utilizing SHM d
 
 ## Keywords:
 District heating networks; Smart heat meters; Building energy efficiency; Fault detection and diagnosis; Machine learning; Heating systems performance.
+
+
+## Thesis structure:
+![Thesis structure](https://github.com/user-attachments/assets/e831e44b-a300-44c9-9e12-d7a2180e3937)
