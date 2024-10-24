@@ -52,7 +52,7 @@ library(waffle)
 # -------------------------------------------------------------------------
 # This section sets the working directory and system language/locale for consistent data processing and analysis.
 
-setwd("C:/Users/FV06XU/OneDrive - Aalborg Universitet/PhD/3. Papers/Journal papers/4. Faults in DH/Manuscript/Analysis")  # Define the main directory for the analysis workflow.
+setwd("~/Manuscript/Analysis")  # Define the main directory for the analysis workflow.
 Sys.setenv(LANG = "en")                                                                                                   # Ensure system language is set to English for consistency in processing and output.
 Sys.setlocale("LC_ALL", "English")                                                                                        # Set all locale settings to English.
 
@@ -61,7 +61,7 @@ Sys.setlocale("LC_ALL", "English")                                              
 # -------------------------------------------------------------------------
 # Load the processed dataset and prepare it for analysis.
 
-load(file = "C:/Users/FV06XU/OneDrive - Aalborg Universitet/PhD/3. Papers/Journal papers/4. Faults in DH/Manuscript/Analysis/SHM_processed_BED4.rda") # Load the dataset from a .rda file.
+load(file = "~/Analysis/SHM_processed_BED4.rda") # Load the dataset from a .rda file.
 
 dt_SHM_segmented <- dt_SHM_segmented %>% 
   arrange(meter_id, Date)  # Sort the segmented dataset by meter_id and Date for orderly analysis.
@@ -100,8 +100,6 @@ FDD_cases <- FDD_groups %>%
   dplyr::summarise(n_count = n())
 
 FDD_cases  # Display the count of FDD cases by category.
-
-
 
 
 
@@ -612,35 +610,6 @@ df_Volatility <- df_Volatility %>%
 df_Volatility <- df_Volatility %>% 
   filter(Date >= Failure_start_date & Date <= Failure_end_date)
 
-# 
-# for (i in 1:50){
-#   
-#   df <- df_Volatility %>% filter(meter_id == i)
-#   
-#   volatility_x = unique(df$Treturn_Volatility)
-#   pattern_x = unique(df$Treturn_Pattern)
-#   
-#   
-#   # if (nrow(df) != 0){
-#   #   df <- ts(xts(df$Treturn, order.by = df$Date))
-#   #   par(mfrow = c(2,1))
-#   #   plot(df, main = paste(i,"(", pattern_x, ")", " with volatility =", volatility_x))
-#   #   plot(diff(log(df)), main = paste("Overall volatility =", round(sd(diff(log(df))), digits = 2)))
-#   # } else {
-#   #   ""
-#   # }
-#   
-#   if (all(is.na(df$Treturn)) != TRUE){
-#     df <- ts(xts(df$Treturn, order.by = df$Date))
-#     par(mfrow = c(2,1))
-#     plot(df, main = paste(i,"(", pattern_x, ")", " with volatility =", volatility_x))
-#     plot(diff(log(df)), main = paste("Overall volatility =", round(sd(diff(log(df))), digits = 2)))
-#   } else {
-#     ""
-#   }
-#   
-# }
-
 
 TR_Volatil <- df_Volatility %>% 
   group_by(meter_id, FDD_category, Treturn_Pattern) %>% 
@@ -700,103 +669,6 @@ ggsave(filename = "C:/Users/FV06XU/OneDrive - Aalborg Universitet/PhD/3. Papers/
        height = 1500,
        units = "px")
 
-
-# -------------------------------------------------------------------------
-### NUMBER OF DAYS PER FAULT LABEL
-# -------------------------------------------------------------------------
-
-### Number of days per return temperature pattern
-# 
-# library(ggridges)
-# 
-# ggplot(FDD_groups, aes(fill = Treturn_Pattern, y = Treturn_Pattern, x = Failure_days)) + 
-#   geom_boxplot() +
-#   theme_bw() +
-#   theme(
-#     legend.position = "bottom"
-#   ) +
-#   ylab("Return temperature patterns") +
-#   xlab("Number of days") +
-#   labs(fill = "Pattern type:")
-#   # facet_wrap(.~Var_type)
-# 
-# 
-# 
-# 
-# ### Pattern types per season
-# 
-# TR_season <- FDD_groups %>% 
-#   # mutate(Season = ifelse(Failure_period >= 4 & Failure_period <= 9, "Warmer months", "Colder months")) %>% 
-#   group_by(meter_id, Treturn_Pattern, Failure_period) %>% 
-#   dplyr::summarise(n_count = n()) %>% 
-#   ungroup() %>% 
-#   transmute(meter_id, Failure_period, Pattern_type = Treturn_Pattern, n_count, Var_type = "Return temperature")
-# 
-# Vol_season <- FDD_groups %>% 
-#   # mutate(Season = ifelse(Failure_period >= 4 & Failure_period <= 9, "Warmer months", "Colder months")) %>% 
-#   group_by(meter_id, Volume_Pattern, Failure_period) %>% 
-#   dplyr::summarise(n_count = n()) %>% 
-#   ungroup() %>% 
-#   transmute(meter_id, Failure_period, Pattern_type = Volume_Pattern, n_count, Var_type = "Volume")
-# 
-# Ener_season <- FDD_groups %>% 
-#   # mutate(Season = ifelse(Failure_period >= 4 & Failure_period <= 9, "Warmer months", "Colder months")) %>% 
-#   group_by(meter_id, Energy_Pattern, Failure_period) %>% 
-#   dplyr::summarise(n_count = n()) %>% 
-#   ungroup() %>% 
-#   transmute(meter_id, Failure_period, Pattern_type = Energy_Pattern, n_count, Var_type = "Energy")
-# 
-# Combined_season <- rbind(TR_season, Vol_season) %>% 
-#   rbind(Ener_season)
-# 
-# # Combined_season$Var_type <- factor(Combined_season$Var_type, levels = c("Return temperature", "Volume", "Energy"))
-# # Combined_season$Period_intensity[Combined_season$Failure_period == 1] <- 1.0
-# # Combined_season$Period_intensity[Combined_season$Failure_period == 2] <- 2.0
-# # Combined_season$Period_intensity[Combined_season$Failure_period == 3] <- 3.0
-# # Combined_season$Period_intensity[Combined_season$Failure_period == 4] <- 4.0
-# # Combined_season$Period_intensity[Combined_season$Failure_period == 5] <- 5.0
-# # Combined_season$Period_intensity[Combined_season$Failure_period == 6] <- 6.0
-# # Combined_season$Period_intensity[Combined_season$Failure_period == 7] <- 6.0
-# # Combined_season$Period_intensity[Combined_season$Failure_period == 8] <- 5.0
-# # Combined_season$Period_intensity[Combined_season$Failure_period == 9] <- 4.0
-# # Combined_season$Period_intensity[Combined_season$Failure_period == 10] <- 3.0
-# # Combined_season$Period_intensity[Combined_season$Failure_period == 11] <- 2.0
-# # Combined_season$Period_intensity[Combined_season$Failure_period == 12] <- 1.0
-# # 
-# # 
-# # ggplot(Combined_season, aes(fill = (Period_intensity), y = n_count, x = Pattern_type)) +
-# #   geom_bar(position="fill", stat="identity") +
-# #   coord_flip() +
-# #   theme_bw() +
-# #   theme(
-# #     legend.position = "bottom"
-# #   ) +
-# #   scale_fill_gradient2(midpoint=3.5, low="red", mid="lightblue",
-# #                         high="blue", space ="Lab" ) +
-# #   ylab("Number of cases") +
-# #   xlab("Fault pattern") +
-# #   labs(fill = "Month:") +
-# #   facet_wrap(.~Var_type)
-# 
-# 
-# library(beeswarm)
-# 
-# 
-# ggplot(Combined_season, aes(x = Failure_period, y = Pattern_type, fill = Pattern_type)) +
-#   geom_beeswarm(priority = "random", size = 3, shape = 21, cex = 1.5, show.legend = F) +
-#   theme(
-#     legend.position = "none",
-#     panel.spacing = unit(0.1, "lines"),
-#     strip.text.x = element_text(size = 8)
-#   ) +
-#   theme_bw() +
-#   xlab("Months") +
-#   ylab("Fault Pattern") +
-#   geom_vline(xintercept = 4.7, linetype = "dashed") +
-#   geom_vline(xintercept = 9.3, linetype = "dashed") +
-#   scale_x_continuous(breaks = 1:12, limits = c(1, 12)) +
-#   annotate("rect", xmin = 4.7, xmax = 9.3, ymin = -Inf, ymax = Inf, alpha = .3, fill = "grey") +
-#   facet_wrap(.~Var_type)
 
 
 
@@ -1211,16 +1083,6 @@ add.cluster.boundaries(ads.model, clust, col = "#A57439", lwd = 9)
 
 
 
-
-# plot(ads.model, type = "codes",
-#      codeRendering = "segments",
-#      bgcol = rainbow(9)[clust],
-#      shape = "round",
-#      main = "b) Cluster map")
-# add.cluster.boundaries(ads.model, clust)
-
-
-
 aweSOMplot(som = ads.model, type = "Cloud", data = x_features,
            variables = c("Main_system", "meter_id", "FDD_category"),
            superclass = clust)
@@ -1243,9 +1105,6 @@ df_final <- df_final %>%
 
 
 
-
-
-
 ggplot(data = df_final,
                        aes(fill = Main_system,
                            y = n_count,
@@ -1256,49 +1115,6 @@ ggplot(data = df_final,
   ylab("Number of cases") +
   labs(fill = "Main System:") +  
   theme(legend.position = "bottom")
-
-
-
-# ggplot(data = df_final,
-#                        aes(fill = FDD_category,
-#                            y = n_count,
-#                            x = y_clust)) + 
-#   geom_bar(position="stack", stat="identity") +
-#   theme_bw() +
-#   xlab("Cluster") +
-#   ylab("Number of cases") +
-#   labs(fill = "Fault labels:") +  
-#   theme(legend.position = "bottom")
-
-
-
-
-
-
-# ## use hierarchical clustering to cluster the codebook vectors
-# som_cluster <- cutree(hclust(dist(ads.model$codes)), 3)
-# # plot these results:
-# plot(ads.model, type="mapping", bgcol = pretty_palette[som_cluster], main = "Clusters") 
-# add.cluster.boundaries(ads.model, som_cluster)
-# 
-# 
-# 
-# 
-# 
-# 
-# 
-# ### Clustering
-# 
-# superclust_pam <- cluster::pam(ads.model$codes[[1]], 3)
-# superclasses_pam <- superclust_pam$clustering
-# 
-# # superclust_hclust <- hclust(dist(ads.model$codes[[1]]), "complete")
-# # superclasses_hclust <- cutree(superclust_hclust, 3)
-# 
-# 
-# aweSOMplot(som = ads.model, type = "Cloud", data = x_features, 
-#            variables = c("Main_system", "meter_id", "Main_system"),
-#            superclass = superclasses_hclust)
 
 
 
